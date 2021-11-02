@@ -1,7 +1,6 @@
 const userRoute = require( './route/user' );
 const dataRoute = require( './route/data' );
 
-
 const 
     express = require( 'express' ),
     global = express.Router(),
