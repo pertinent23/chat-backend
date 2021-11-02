@@ -10,13 +10,9 @@ const firebaseConfig = {
 
 module.exports = async () => {
     const 
-        initializeApp = await import( 'firebase/app' ),
-        getAnalytics = ( await import( 'firebase/analytics' ) ).getAnalytics,
+        initializeApp = ( await import( 'firebase/auth' ) ).default,
         app = initializeApp( firebaseConfig );
-    return {
-        app,
-        analytics: getAnalytics( app )
-    };
+    return app;
 };
 
 

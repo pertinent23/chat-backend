@@ -1,7 +1,9 @@
+const userRoute = require( './route/user' );
+const dataRoute = require( './route/data' );
+
 const 
-    fetch = require( './fetch' ),
-    firebase = require( './firebase' ),
     express = require( 'express' ),
+    global = express.Router(),
     app = express();
 
         app.use( ( req, res, next ) => {
@@ -11,23 +13,8 @@ const
             next();
         } );
 
-        app.use( '/api/list/', ( req, res ) => {
-            return fetch( 'https://my.api.mockaroo.com/backend_test.json', {
-                method: 'GET',
-                headers: {
-                    'X-API-KEY': 'f3d124f0'
-                }
-            } ).then( ( data ) => {
-                return data.json();
-            } ).then( ( data ) => {
-                res.json( 'error' in data ? [ ] : data );
-            } ).catch( () => {
-                res.json( [] );
-            } );
-        } );
-
-        app.use( '/api/db/', ( req, res ) => {
-            res.json( firebase.firebaseConfig );
-        } );
-
+        global.use( '/user', userRoute );
+        global.use( '/data', dataRoute );
+    
+    app.use( '/api', global );
 module.exports = app;
