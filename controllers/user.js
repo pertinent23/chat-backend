@@ -1,37 +1,19 @@
 const 
-    admin = require( 'firebase-admin' ),
-    serviceAccountKey = require( '../models/key' );
-        admin.initializeApp( {
-            credential: admin.credential.cert( serviceAccountKey )
-        } );
+    User = require( '../models/class/user' );
 
-const 
-    db = admin.firestore(),
-    auth = admin.auth();
-
-module.exports.resgistration = ( req, res ) => {
-    const 
-        data = {
-            fisrtname: 'Franck',
-            lastname: 'Pertinent'
-        };
-    db.collection( 'users' ).add( data ).then( () => {
-        res.status( 200 ).json( {
-            res: 'Ok'
-        } );
+module.exports.registration = ( req, res ) => {
+    return User.createUser( {
+        email: req.query.email,
+        password: req.query.password
+    } ).then( function ( data ) {
+        res.status( 200 ).json( data );
     } ).catch( ( error ) => {
         res.status( 401 ).json( { error } );
     } );
 };
 
 module.exports.login = async ( req, res ) => {
-    auth.getUsers( [ { email: '1test@gmail.com' }, { password: 'tester232' } ] ).then( ( data ) => {
-        res.status( 200 ).json( {
-            res: data
-        } );
-    } ).catch( ( error ) => {
-        res.status( 401 ).json( { error } );
-    } )
+    
 };
 
 module.exports.base = ( req, res ) => {
@@ -40,23 +22,24 @@ module.exports.base = ( req, res ) => {
     } );
 };
 
-module.exports.add = ( req, res ) => {
-    res.json( {
-        params: req.params,
-        query: req.queries
-    } );
+module.exports.add = async ( req, res ) => {
+    const 
+        pass =  'my passord 232',
+        res1 = User.crypPassword( pass ),
+        res2 = User.decryptPassword( res1 );
+    return res.json( { pass, res1, res2 } );
 };
 
 module.exports.list = ( req, res ) => {
-    db.collection( 'users' ).listDocuments().then( ( response ) => {
+    /*db.collection( 'users' ).listDocuments().then( ( response ) => {
         res.json( response.map( ( val ) => {
             return val._path.segments[ 1 ];
         } ) );
-    } );
+    } );*/
 };
 
 module.exports.listUser = ( req, res ) => {
-    db.collection( 'users' ).get().then( function ( data ) {
+    /*db.collection( 'users' ).get().then( function ( data ) {
         res.json( {
             data: data.docs.map( ( val ) => {
                 return {
@@ -65,5 +48,5 @@ module.exports.listUser = ( req, res ) => {
                 };
             } )
         } )
-    } );
+    } );*/
 };

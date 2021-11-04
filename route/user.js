@@ -3,7 +3,7 @@ const
     router = express.Router(),
     crontroller = require( '../controllers/user' );
 
-        router.post( '/registration', crontroller.resgistration );
+        router.post( '/registration', crontroller.registration );
         router.post( '/login', crontroller.login );
 
         router.get( '/', crontroller.base );
