@@ -25,8 +25,9 @@ module.exports.base = ( req, res ) => {
 module.exports.add = async ( req, res ) => {
     const 
         pass =  'my passord 232',
+        pass2 =  'my Passord 232',
         res1 = User.crypPassword( pass ),
-        res2 = User.decryptPassword( res1 );
+        res2 = User.crypPassword( pass2 );
     return res.json( { pass, res1, res2 } );
 };
 
